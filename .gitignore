@@ -51,5 +51,8 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+#macOS
+.DS_Store
+
 !MASM.EXE
 !LINK.EXE
