@@ -1,3 +1,4 @@
+; 程序模板
 assume cs:code,ds:data,ss:stack
 
 data segment
@@ -11,9 +12,11 @@ stack ends
 code segment
 
     start:
-        mov ax,2
-        add ax,ax
-        add ax,ax
+        mov ax,stack
+        add ss,ax
+        add sp,64
+
+        ;...
 
         mov ax,4c00h    ; 退出程序
         int 21h
