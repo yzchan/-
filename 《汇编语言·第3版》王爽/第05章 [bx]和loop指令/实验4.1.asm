@@ -1,4 +1,4 @@
-; 实验3 向内存0:200~0:23F依次传送数据0~63(3FH)
+; 实验4.1 向内存0:200~0:23F依次传送数据0~63(3FH)
 assume cs:code,ds:data,ss:stack
 
 data segment
