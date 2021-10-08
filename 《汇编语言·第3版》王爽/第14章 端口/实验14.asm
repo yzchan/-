@@ -17,8 +17,8 @@ start:  mov ax,cs
 s:      push cx
         mov dl,ds:[si]
         mov al,dl
-        out 70h,al
-        in  al,71h
+        out 70h,al      ; 70h为地址端口
+        in  al,71h      ; 71h为数据端口
 
         mov ah,al
         mov cl,4
