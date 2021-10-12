@@ -1,5 +1,5 @@
 ; 实现一个时钟功能
-; 1、清屏（todo）
+; 1、清屏
 ; 2、从CMOS中读取时间，并显示到屏幕中间，
 ; 3、然后写一个死循环不停的读取时间并显示时间
 ; 这样就实现了一个简单地时钟功能
@@ -24,11 +24,37 @@ start:          mov ax,stack
                 mov ax,data
                 mov ds,ax
 
-        s:      call showTime
-                jmp s
+                call clearScreen    ; 清屏
+
+        s:      call showTime   
+                jmp s           ; 循环显示时间信息
 
                 mov ax,4c00h    ; 退出程序
                 int 21h
+
+clearScreen:
+                push ax
+                push bx
+                push cx
+                push dx
+                push si
+                push di
+                mov ax,0b800h
+                mov es,ax
+                mov cx,2000
+                mov si,0
+        s2:     mov dl,0
+                mov dh,00000111b    ;设置黑色背景
+                mov es:[si],dx
+                add si,2
+                loop s2
+                pop di
+                pop si
+                pop dx
+                pop cx
+                pop bx
+                pop ax
+                ret
 
 showTime:       push ax
                 push bx
@@ -49,8 +75,8 @@ showTime:       push ax
                 loop s1
 
                 mov bh,0        ; 设置页面
-                mov dl,10       ; 设置光标列
-                mov dh,24       ; 设置光标行
+                mov dl,20       ; 设置光标列
+                mov dh,12       ; 设置光标行
                 mov ah,02h
                 int 10h         ; 10h中断02h号子程序：设置光标位置
 
