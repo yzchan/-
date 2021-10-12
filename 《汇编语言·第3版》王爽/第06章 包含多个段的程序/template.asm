@@ -13,9 +13,12 @@ code segment
 
     start:
         mov ax,stack
-        add ss,ax
-        add sp,64
+        mov ss,ax
+        mov sp,64
 
+        mov ax,data
+        mov ds,ax
+        
         ;...
 
         mov ax,4c00h    ; 退出程序
