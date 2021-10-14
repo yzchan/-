@@ -20,7 +20,7 @@ code segment
 
         mov ax,data
         mov ds,ax
-        
+
         mov al,12               ; 设置显示行
         mov ah,30               ; 设置显示列
         mov dh,00000010b        ; 设置显示属性：黑底绿字

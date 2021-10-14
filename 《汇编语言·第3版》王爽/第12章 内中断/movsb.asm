@@ -28,7 +28,7 @@ code segment
         mov cx,16       ; 设置cx为复制长度
         cld             ; 设置传输方向为正
         rep movsb       ; 开始传输内存数据
-        
+
         mov ax,4c00h    ; 退出程序
         int 21h
 
