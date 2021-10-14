@@ -47,15 +47,15 @@ out dx，al
 | 44H | 可编程中断计时器，杂项寄存器(AT) |
 | 47H | 可编程中断计时器，计数器0的控制字寄存器 |
 | 48H—5FH | 可编程中断计时器使用 |
-| 60H—61H | <font color=lightgreen>键盘输入数据缓冲区</font> |
+| 60H—61H | 键盘输入数据缓冲区 |
 | 61H | AT：8042控制寄存器 |
 | XT：8255输出寄存器 |
 | 62H | 8255输入寄存器 |
 | 63H | 8255命令方式寄存器 |
 | 64H | 8042键盘输入缓冲区/8042状态 |
 | 65H—6FH | 8255/8042专用 |
-| 70H | <font color=lightgreen>CMOS RAM地址寄存器</font> |
-| 71H | <font color=lightgreen>CMOS RAM数据寄存器</font> |
+| 70H | CMOS RAM地址寄存器 |
+| 71H | CMOS RAM数据寄存器 |
 | 80H | 生产测试端口 |
 | 81H | DMA通道2，页表地址寄存器 |
 | 82H | DMA通道3，页表地址寄存器 |
