@@ -18,7 +18,7 @@ code segment
 
         mov ax,data
         mov ds,ax
-        
+
         ;...
 
         mov ax,4c00h    ; 退出程序

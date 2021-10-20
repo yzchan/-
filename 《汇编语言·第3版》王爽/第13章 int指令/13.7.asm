@@ -20,7 +20,7 @@ start:  mov ah,2    ; 在第0页第5行第12列放置光标
         mov ah,9
         int 21h     ; 要显示的字符串需要用$作为结束符
 
-        mov ah,4ch
+        mov ax,4c00h
         int 21h
 code ends
 end start

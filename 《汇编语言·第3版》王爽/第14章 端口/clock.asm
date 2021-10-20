@@ -26,7 +26,7 @@ start:          mov ax,stack
 
                 call clearScreen    ; 清屏
 
-        s:      call showTime   
+        s:      call showTime
                 jmp s           ; 循环显示时间信息
 
                 mov ax,4c00h    ; 退出程序

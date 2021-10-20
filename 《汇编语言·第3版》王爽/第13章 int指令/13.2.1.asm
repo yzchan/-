@@ -39,10 +39,10 @@ cpy_int_7ch:    mov ax,cs
 ; 功能：把7ch中断例程的入口地址注册到中断向量表中
 reg_int_7ch:    mov ax,0
                 mov es,ax
-                cli     ; Clear Interupt 屏蔽外部中断，提高程序的健壮性
+                cli             ; Clear Interupt 屏蔽外部中断，提高程序的健壮性
                 mov word ptr es:[7ch*4+0],200h  ; set ip
                 mov word ptr es:[7ch*4+2],0     ; set cs
-                sti     ; Set Interupt 恢复外部中断
+                sti             ; Set Interupt 恢复外部中断
                 ret
 ; ==============================================================================
 
