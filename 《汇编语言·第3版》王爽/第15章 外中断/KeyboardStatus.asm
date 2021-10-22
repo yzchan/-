@@ -21,7 +21,7 @@ start:          mov ax,stack
 
                 mov ax,0b800h
                 mov es,ax
-                mov di,160*10+40*2  ; es:di 指向显存
+                mov di,160*24+40*2  ; es:di 指向显存
 
  s:
                 call showKeyboardState

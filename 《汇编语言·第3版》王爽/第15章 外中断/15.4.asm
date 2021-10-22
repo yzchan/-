@@ -1,4 +1,4 @@
-;  0040：17 单元存储了键盘状态字节  本程序用于显示该内存单元的数据
+; 编程：在屏幕中间依次显示字幕a~z，并可以让人看清，按下Esc后改变显示颜色
 assume cs:code,ds:data,ss:stack
 
 data segment
@@ -70,19 +70,6 @@ s1:     sub ax,1
         pop cx
         pop dx
         ret
-; delay:          push ax
-;                 push dx
-;                 mov dx,1000h
-;                 mov ax,0
-;         s1:     sub ax,1
-;                 sbb dx,0
-;                 cmp ax,0
-;                 jne s1
-;                 cmp dx,0
-;                 jne s1
-;                 pop dx
-;                 pop ax
-;                 ret
 
 int9:           push ax
                 push bx
