@@ -1,3 +1,5 @@
+; 检测点16.1
+; 下面的程序将code段中a标号处的8个字型数据累加，结果存储到b标号处的双字中。
 assume cs:code
 
 code segment
