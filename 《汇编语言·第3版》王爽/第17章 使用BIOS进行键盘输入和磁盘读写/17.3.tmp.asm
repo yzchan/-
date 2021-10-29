@@ -28,14 +28,14 @@ s:      call get_char
         ja inputchar    ; 非控制字符跳字符输入处理逻辑
         jmp s
 
-backspace:      ; 删除字符
+backspace:              ; 删除字符
         mov ah,1
         call stringIO   ; 字符弹出
         mov ah,2
         call stringIO   ; 显示
         jmp s
 
-inputchar:      ; 输入字符
+inputchar:              ; 输入字符
         mov ah,0
         call stringIO   ; 字符入栈
         mov ah,2
