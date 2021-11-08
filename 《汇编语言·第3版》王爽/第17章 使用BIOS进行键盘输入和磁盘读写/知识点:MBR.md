@@ -4,9 +4,10 @@
 主引导记录（MBR，Master Boot Record）是采用MBR分区表的硬盘的第一个扇区，即C/H/S地址的0柱面0磁头1扇区，也叫做MBR扇区。
 
 
+### 关键术语：MBR/GPT/GUID/UEFI/LEGACY/DPT
+
 MBR分区表和GPT分区表
 
-### 常见术语：MBR/GPT/GUID/UEFI/LEGACY
 GPT是GUID磁碟分割表（GUID Partition Table）的缩写，含义“全局唯一标识磁盘分区表”，是一个实体硬盘的分区表的结构布局的标准。
 
 UEFI和LEGACY是两种不同的引导方式
@@ -20,6 +21,33 @@ UEFI属于主板类名词，其作用类似于BIOS。GPT、MBR则属于硬盘类
 MBR分区表最多只能识别2TB左右的空间，大于2TB的容量将无法识别从而导致硬盘空间浪费，而GPT分区表则能够识别2TB以上的硬盘空间。
 MBR分区表最多只能支持4个主分区或三个主分区+1个扩展分区(逻辑分区不限制)，GPT分区表在Windows系统下可以支持128个主分区。
 
+MBR结构：
+偏移     内容                          大小（字节）
+0h       主引导程序                    最大466
+01BEh    硬盘分区表(DPT)               64
+01FEh    启动标志(0x55 0xAA)           2
+
+
+硬盘分区表(DPT)结构：
+偏移     内容                          大小（字节）
+01BEh    分区1的分区数据表             16
+01CEh    分区2的分区数据表             16
+01DEh    分区3的分区数据表             16
+01FEh    分区4的分区数据表             16
+
+
+分区数据表（Partition Data Table）结构：
+偏移     内容                          大小（字节）
+00h      引导ID标记(Boot indicator)    1
+01h      起始扇区头号                  1
+02h      起始扇区 (柱面号的最高2位)    1
+03h      起始柱面号# (柱面号的低位)    1
+04h      系统属性ID 标记               1
+05h      结束扇区头号                  1
+06h      结束扇区(柱面号的最高2位)     1
+07h      结束柱面号# (柱面号的低位)    1
+08h      此分区前的扇区总数目          4
+0Bh      此分区的扇区总数目            4
 
 因为硬件发展迅速，传统式（Legacy）BIOS 成为进步的包袱，现在已发展出最新的EFI（Extensible Firmware Interface）可扩展固件接口，以现在传统 BIOS 的观点来说，未来将是一个“没有特定 BIOS”的电脑时代。
 
@@ -41,3 +69,4 @@ UEFI是由EFI1.10为基础发展起来的，它的所有者已不再是Intel，�
 
 - C/H/S： 柱面数（Cylinders）、 磁头数（Heads）、扇区数（Sectors）三维寻址模式
 - LBA：   LBA(Logical Block Addressing)逻辑块寻址模式
+
