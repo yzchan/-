@@ -202,3 +202,117 @@ max.o目标文件hexdump出来的信息第一行`00000000  7f 45 4c 46 02 01 01 
 ```c
 #define EI_PAD		9		/* Byte index of padding bytes */
 ```
+
+
+##### 然后来看section header节头
+```text
+  Start of section headers:          504 (bytes into file)
+  Size of section headers:           64 (bytes)
+  Number of section headers:         8
+```
+节头从504字节开始，共8个节头，每个节头占据64字节空间
+
+readelf -S max.o
+
+```text
+There are 8 section headers, starting at offset 0x1f8:
+
+Section Headers:
+  [Nr] Name              Type             Address           Offset    Size              EntSize          Flags     Link  Info  Align
+  [ 0]                   NULL             0000000000000000  00000000  0000000000000000  0000000000000000           0     0     0
+  [ 1] .text             PROGBITS         0000000000000000  00000040  000000000000002d  0000000000000000  AX       0     0     1
+  [ 2] .rela.text        RELA             0000000000000000  00000190  0000000000000030  0000000000000018   I       5     1     8
+  [ 3] .data             PROGBITS         0000000000000000  0000006d  0000000000000038  0000000000000000  WA       0     0     1
+  [ 4] .bss              NOBITS           0000000000000000  000000a5  0000000000000000  0000000000000000  WA       0     0     1
+  [ 5] .symtab           SYMTAB           0000000000000000  000000a8  00000000000000c0  0000000000000018           6     7     8
+  [ 6] .strtab           STRTAB           0000000000000000  00000168  0000000000000028  0000000000000000           0     0     1
+  [ 7] .shstrtab         STRTAB           0000000000000000  000001c0  0000000000000031  0000000000000000           0     0     1
+```
+
+第0段全部是0填充的，不知道有什么意义。
+
+先来看[ 1] .text `hexdump -Cv -n64 -s568 max.o`
+```text
+00000238  20 00 00 00 01 00 00 00  06 00 00 00 00 00 00 00  | ...............|
+00000248  00 00 00 00 00 00 00 00  40 00 00 00 00 00 00 00  |........@.......|
+00000258  2d 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |-...............|
+00000268  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+```
+
+看一下Sections Header的定义
+```c
+typedef struct
+{
+  Elf64_Word	sh_name;		/* Section name (string tbl index) */
+  Elf64_Word	sh_type;		/* Section type */
+  Elf64_Xword	sh_flags;		/* Section flags */
+  Elf64_Addr	sh_addr;		/* Section virtual addr at execution */
+  Elf64_Off	sh_offset;		/* Section file offset */
+  Elf64_Xword	sh_size;		/* Section size in bytes */
+  Elf64_Word	sh_link;		/* Link to another section */
+  Elf64_Word	sh_info;		/* Additional section information */
+  Elf64_Xword	sh_addralign;		/* Section alignment */
+  Elf64_Xword	sh_entsize;		/* Entry size if section holds table */
+} Elf64_Shdr;
+```
+
+可见代码段占据从0x40开始长度为0x2d的空间，用hexdump读出来看下`hexdump -Cv -n0x2d -s0x40 max.o`
+```text
+00000040  bf 00 00 00 00 67 8b 04  bd 00 00 00 00 89 c3 83  |.....g..........|
+00000050  f8 00 74 12 ff c7 67 8b  04 bd 00 00 00 00 39 d8  |..t...g.......9.|
+00000060  7e ed 89 c3 eb e9 b8 01  00 00 00 cd 80           |~............|
+```
+
+再反汇编一下max.o目标文件 `objdump -d max.o`
+```text
+max.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <_start>:
+   0:   bf 00 00 00 00          mov    $0x0,%edi
+   5:   67 8b 04 bd 00 00 00    mov    0x0(,%edi,4),%eax
+   c:   00 
+   d:   89 c3                   mov    %eax,%ebx
+
+000000000000000f <start_loop>:
+   f:   83 f8 00                cmp    $0x0,%eax
+  12:   74 12                   je     26 <loop_exit>
+  14:   ff c7                   inc    %edi
+  16:   67 8b 04 bd 00 00 00    mov    0x0(,%edi,4),%eax
+  1d:   00 
+  1e:   39 d8                   cmp    %ebx,%eax
+  20:   7e ed                   jle    f <start_loop>
+  22:   89 c3                   mov    %eax,%ebx
+  24:   eb e9                   jmp    f <start_loop>
+
+0000000000000026 <loop_exit>:
+  26:   b8 01 00 00 00          mov    $0x1,%eax
+  2b:   cd 80                   int    $0x80
+```
+
+对比可见是完全一样，将源代码汇编之后的二进制指令全部放入可执行文件ELF中。
+
+再看[ 3] .data `hexdump -Cv -n0x38 -s0x6d max.o`
+```
+0000006d  03 00 00 00 43 00 00 00  22 00 00 00 de 00 00 00  |....C...".......|
+0000007d  2d 00 00 00 4b 00 00 00  36 00 00 00 22 00 00 00  |-...K...6..."...|
+0000008d  2c 00 00 00 21 00 00 00  16 00 00 00 0b 00 00 00  |,...!...........|
+0000009d  42 00 00 00 00 00 00 00                           |B.......|
+```
+
+```s
+.section .data
+	data_items: .long 3,67,34,222,45,75,54,34,44,33,22,11,66,0
+```
+
+跟源代码中定义的数据段也完全一致
+
+其他段都是编译器加上去的section:
+
+- [ 2] .rela.text 是给链接器做重定位用的
+- [ 4] .bss 用来存放程序中未初始化的或者初始值为0的全局变量的一块内存区域。属于静态内存分配。BSS全称Block Started by Symbol
+- [ 5] .symtab 符号表
+- [ 6] .strtab 程序中用到的符号的名字，每个名字都是以Null结尾的字符串。
+- [ 7] .shstrtab 各Section的名称表
