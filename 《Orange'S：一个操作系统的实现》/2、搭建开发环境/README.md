@@ -1,4 +1,4 @@
-# 搭建开发环境
+# 搭建Bochs开发环境
 
 ## Bochs
 
@@ -29,7 +29,15 @@ h|help command - show short command description
     show "param", restore
 ```
 
-书上的dump_cpu命令在bochs 2.3.5以上的版本就没有了，可以使用r/sreg/dreg/creg等命令替代。
+> 书上的dump_cpu命令在bochs 2.3.5以上的版本就没有了，可以使用r/sreg/dreg/creg等命令替代。
+
+调试命令跟gdb类似，常用的调试命令有
+
+- b 设置断点
+- c 执行到断点处   n 单步执行
+- 查看寄存器命令 r/sreg/dreg/creg
+- x 查看内存
+- u 查看反汇编指令
 
 ## 在macOS上安装bochs
 
@@ -51,8 +59,3 @@ bochs配置文件中添加如下配置才能正确启动bochs窗口
 ```ini
 display_library: sdl2
 ```
-
-
-## Virtual Box
-
-还需要一个快一点的虚拟机，，可以直接使用Virtual Box或者VM Ware。（书上推荐的是QEMU，没用过，应该差不多）。
