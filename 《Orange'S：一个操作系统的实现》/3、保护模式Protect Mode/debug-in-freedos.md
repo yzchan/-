@@ -20,7 +20,7 @@ sudo mount -t msdos /dev/disk2 ~/floppy # 这里的/dev/disk2不是固定的，�
 
 ## 调试
 
-挂载成功之后，便可以在宿主机编译出.com文件，丢到挂载目录然后进入freedos运行。可是直接使用32位debug.exe进行调试，但是无法跟踪 `mov cr0 ax` 指令。
+挂载成功之后，便可以在宿主机编译出.com文件，丢到挂载目录然后进入freedos运行。可是直接使用32位debug.exe进行调试，但是无法跟踪 `mov cr0 eax` 指令。
 
 这里分享一种直接利用bochs调试功能对freedos中的.com进行调试的方法
 
