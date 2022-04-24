@@ -8,7 +8,6 @@
 
 这种方式跟linux的启动方式有很大不同。实现起来更加复杂，但性质是一样的，都是为了加载操作系统进内存。好处就是fat12格式兼容dos，方便使用bochs仿真freedos进行调试。
 
-
 ## 知识点归纳
 
 1. FAT12文件格式
@@ -17,7 +16,7 @@
 
 ## 函数封装
 
-1. 根据逻辑扇区号来读入扇区数据
+1. 根据逻辑扇区号来读入扇区
 2. 在FAT根目录区查找loader所在扇区号
 3. 再根据扇区号求FAT项的值
 
@@ -33,6 +32,6 @@ mbr+leagcy与gpt+uefi启动方式
 
 常见文件系统FS(File System)
 
-> Windows: fat12/fat16/fat32/exfat/NTFS\
-> Linux: ext系列、XFS等（Linux更加开放，因此支持的FS非常的多）\
-> MacOS: HFS/HFS+/APFS
+- Windows: fat12/fat16/fat32/exfat/NTFS\
+- Linux: ext系列、XFS等（Linux更加开放，因此支持的FS非常的多）\
+- MacOS: HFS/HFS+/APFS
